@@ -17,5 +17,11 @@ jobs:
         uses: azure/login@v1
         with:
           creds: '${{secrets.HUMANACTIVITYRECOGNITION_CREDENTIALS}}'
+          run: |
+            ls ${{ github.workspace }}
+      - name: Log in to Azure
+        uses: azure/login@v1
+        with:
+          creds: '${{secrets.HUMANACTIVITYRECOGNITION_CREDENTIALS}}'
       - name: Test azure login by getting details
         run: az account show
