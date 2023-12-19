@@ -8,4 +8,4 @@ inputs:
 environment: azureml://registries/azureml/environments/sklearn-1.1/versions/14
 compute: Com774-CW-ML-Compute
 experiment_name: Human-Activity-Recognition
-description: This experiment contains model and dataset for the human activity recognition using smartphones.
+description: This experiment contains model and dataset for the human activity recognition using smartphones
