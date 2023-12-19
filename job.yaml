@@ -1,5 +1,5 @@
 $schema: https://azuremlschemas.azureedge.net/latest/commandJob.schema.json
-code: src
+code: .
 command: python human_activity_prediction.py  --trainingdata ${{ inputs.training_data }}
 inputs:
   training_data:
