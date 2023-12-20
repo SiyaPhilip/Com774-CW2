@@ -7,6 +7,8 @@ Original file is located at
     https://colab.research.google.com/drive/1GJ6TMZfv4_GowgHLvo_RmHIan4Qq-kNM
 """
 
+pip install seaborn
+
 import numpy as np # linear algebra
 import pandas as pd # data processing, CSV file I/O (e.g. pd.read_csv)
 import seaborn as sns
@@ -14,7 +16,7 @@ import matplotlib.pyplot as plt
 
 import os
 data = pd.read_csv('/content/train.csv', engine='python')
-test_data = pd.read_csv('/content/test.csv', engine='python')
+#test_data = pd.read_csv('/content/test.csv', engine='python')
 print(data.head())
 
 data.Activity.unique()
@@ -62,87 +64,49 @@ sns.scatterplot(x='X', y='Y', hue='Activity', data=tsne_df, palette='bright')
 plt.title('t-SNE visualization of Human Activity Recognition Data')
 plt.show()
 
+from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import classification_report
-from sklearn.preprocessing import StandardScaler
+from sklearn.metrics import accuracy_score, classification_report
 
-X_train = data.drop(['Activity', 'subject'], axis=1)
-y_train = data['Activity']
+# Assuming 'Activity' is the target variable
+X = data.drop('Activity', axis=1)  # Features
+y = data['Activity']  # Target variable
 
-# Load test dataset
-X_test = test_data.drop(['Activity', 'subject'], axis=1)
-y_test = test_data['Activity']
+# Split the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-# Preprocessing: Normalize features
-scaler = StandardScaler()
-X_train_scaled = scaler.fit_transform(X_train)
-X_test_scaled = scaler.transform(X_test)
+# Create a Random Forest Classifier
+rf_classifier = RandomForestClassifier(n_estimators=100, random_state=42)
 
-# Model training using the scaled data
-model = RandomForestClassifier(random_state=42)
-model.fit(X_train_scaled, y_train)
+# Train the model
+rf_classifier.fit(X_train, y_train)
 
-# Model validation using the scaled test data
-y_pred = model.predict(X_test_scaled)
-print(classification_report(y_test, y_pred))
-
-from sklearn.metrics import confusion_matrix
-
-# Generate the confusion matrix
-cm = confusion_matrix(y_test, y_pred)
-
-plt.figure(figsize=(8, 6))
-sns.heatmap(cm, annot=True, fmt='g', cmap='Blues', xticklabels=model.classes_, yticklabels=model.classes_)
-plt.xlabel('Predicted')
-plt.ylabel('True')
-plt.title('Confusion Matrix for GradientBoostingClassifier')
-plt.show()
-
-# Extracting feature importances
-feature_importances = model.feature_importances_
-
-# Creating a DataFrame for visualization
-feature_names = X_train.columns
-importances_df = pd.DataFrame({'Feature': feature_names, 'Importance': feature_importances})
-
-# Sorting the DataFrame by importance
-importances_df = importances_df.sort_values(by='Importance', ascending=False)
-
-# Plotting
-plt.figure(figsize=(10, 6))
-plt.barh(importances_df['Feature'][:10], importances_df['Importance'][:10])
-plt.xlabel('Importance')
-plt.ylabel('Feature')
-plt.title('Feature Importances in RandomForest Model')
-plt.gca().invert_yaxis() # To display the highest importance at the top
-plt.show()
-
-from sklearn.ensemble import GradientBoostingClassifier
-
-# Instantiate the model
-gb_clf = GradientBoostingClassifier(random_state=42)
-
-# Fit the model
-gb_clf.fit(X_train, y_train)
-
-# Predict on the test set
-y_pred = gb_clf.predict(X_test)
+# Make predictions on the test set
+y_pred = rf_classifier.predict(X_test)
 
 # Evaluate the model
+accuracy = accuracy_score(y_test, y_pred)
+print(f"Accuracy: {accuracy:.2f}")
+
+# Display classification report
+print("Classification Report:")
 print(classification_report(y_test, y_pred))
 
-# Generate the confusion matrix
-cm = confusion_matrix(y_test, y_pred)
+!pip install seaborn
+!pip install matplotlib
+import seaborn as sns
+import matplotlib.pyplot as plt
 
+cm = confusion_matrix(y_test, y_pred)
 plt.figure(figsize=(8, 6))
-sns.heatmap(cm, annot=True, fmt='g', cmap='Blues', xticklabels=gb_clf.classes_, yticklabels=gb_clf.classes_)
+sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', xticklabels=rf_classifier.classes_, yticklabels=rf_classifier.classes_)
 plt.xlabel('Predicted')
 plt.ylabel('True')
-plt.title('Confusion Matrix for GradientBoostingClassifier')
+plt.title('Confusion Matrix')
 plt.show()
 
-# Extracting feature importances
-feature_importances = gb_clf.feature_importances_
+# Plot feature importance
+feature_importances = rf_classifier.feature_importances_
 
 # Creating a DataFrame for visualization
 feature_names = X_train.columns
@@ -156,14 +120,71 @@ plt.figure(figsize=(10, 6))
 plt.barh(importances_df['Feature'][:10], importances_df['Importance'][:10])
 plt.xlabel('Importance')
 plt.ylabel('Feature')
-plt.title('Feature Importances in Gradient Boosting Model')
-plt.gca().invert_yaxis() # To display the highest importance at the top
+plt.title('Random Forest Feature Importances')
+plt.gca().invert_yaxis()  # To display the highest importance at the top
 plt.show()
 
-from sklearn.preprocessing import LabelEncoder
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import GradientBoostingClassifier
+from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
+# Create a Gradient Boosting Classifier
+gb_classifier = GradientBoostingClassifier(n_estimators=100, random_state=42)
+
+# Train the model
+gb_classifier.fit(X_train, y_train)
+
+# Make predictions on the test set
+y_pred = gb_classifier.predict(X_test)
+
+# Evaluate the model
+accuracy = accuracy_score(y_test, y_pred)
+print(f"Accuracy: {accuracy:.2f}")
+
+# Display classification report
+print("Classification Report:")
+print(classification_report(y_test, y_pred))
+
+# Print confusion matrix
+cm = confusion_matrix(y_test, y_pred)
+plt.figure(figsize=(8, 6))
+sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', xticklabels=gb_classifier.classes_, yticklabels=gb_classifier.classes_)
+plt.xlabel('Predicted')
+plt.ylabel('True')
+plt.title('Confusion Matrix')
+plt.show()
+
+# Plot feature importance
+feature_importances = gb_classifier.feature_importances_
+
+# Creating a DataFrame for visualization
+feature_names = X_train.columns
+importances_df = pd.DataFrame({'Feature': feature_names, 'Importance': feature_importances})
+
+# Sorting the DataFrame by importance
+importances_df = importances_df.sort_values(by='Importance', ascending=False)
+
+# Plotting
+plt.figure(figsize=(10, 6))
+plt.barh(importances_df['Feature'][:10], importances_df['Importance'][:10])
+plt.xlabel('Importance')
+plt.ylabel('Feature')
+plt.title('Gradient Boosting Feature Importances')
+plt.gca().invert_yaxis()  # To display the highest importance at the top
+plt.show()
+
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler, LabelEncoder
+from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import LSTM, Dense, Dropout
 from tensorflow.keras.utils import to_categorical
+
+# Assuming 'Activity' is the target variable
+X = data.drop('Activity', axis=1)  # Features
+y = data['Activity']  # Target variable
+
+# Split the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
 # Normalize features
 scaler = StandardScaler()
@@ -180,6 +201,7 @@ y_test_categorical = to_categorical(y_test_encoded)
 # Reshape input for LSTM [samples, time steps, features]
 X_train_reshaped = X_train_scaled.reshape((X_train_scaled.shape[0], 1, X_train_scaled.shape[1]))
 X_test_reshaped = X_test_scaled.reshape((X_test_scaled.shape[0], 1, X_test_scaled.shape[1]))
+
 # Create the LSTM model
 model = Sequential()
 model.add(LSTM(100, input_shape=(X_train_reshaped.shape[1], X_train_reshaped.shape[2])))
@@ -196,6 +218,13 @@ history = model.fit(X_train_reshaped, y_train_categorical, epochs=100, batch_siz
 # Evaluate the model
 loss, accuracy = model.evaluate(X_test_reshaped, y_test_categorical)
 print("Accuracy: %.2f%%" % (accuracy * 100))
+
+# Generate predictions on the test set
+y_pred_prob = model.predict(X_test_reshaped)
+y_pred = np.argmax(y_pred_prob, axis=1)
+
+# Convert predictions back to original labels
+y_pred_labels = encoder.inverse_transform(y_pred)
 
 # Plotting the convergence
 plt.figure(figsize=(12, 6))
@@ -219,25 +248,18 @@ plt.legend()
 
 plt.show()
 
-# Make predictions
-y_pred = model.predict(X_test_reshaped)
+# Generate confusion matrix
+#cm = confusion_matrix(y_test, y_pred_labels)
 
-# Convert one-hot encoded predictions back to class labels
-y_pred_classes = np.argmax(y_pred, axis=1)
-
-# Convert one-hot encoded test labels back to class labels
-y_test_classes = np.argmax(y_test_categorical, axis=1)
-
-# Compute confusion matrix
-cm = confusion_matrix(y_test_classes, y_pred_classes)
-
-# Fetch labels for plotting
-class_labels = encoder.classes_
-
-# Plot the confusion matrix using Seaborn
-plt.figure(figsize=(10, 8))
-sns.heatmap(cm, annot=True, fmt='g', cmap='Blues', xticklabels=class_labels, yticklabels=class_labels)
-plt.xlabel('Predicted')
-plt.ylabel('True')
-plt.title('Confusion Matrix for LSTM Model')
-plt.show()
+# Plot the confusion matrix
+#plt.figure(figsize=(8, 6))
+#plt.imshow(cm, interpolation='nearest', cmap=plt.cm.Blues)
+#plt.title('Confusion Matrix')
+#plt.colorbar()
+#classes = encoder.classes_
+#tick_marks = np.arange(len(classes))
+#plt.xticks(tick_marks, classes, rotation=45)
+#plt.yticks(tick_marks, classes)
+#plt.xlabel('Predicted')
+#plt.ylabel('True')
+#plt.show()
