@@ -7,7 +7,7 @@ Original file is located at
     https://colab.research.google.com/drive/1GJ6TMZfv4_GowgHLvo_RmHIan4Qq-kNM
 """
 
-pip install seaborn
+!pip install seaborn
 
 import numpy as np # linear algebra
 import pandas as pd # data processing, CSV file I/O (e.g. pd.read_csv)
