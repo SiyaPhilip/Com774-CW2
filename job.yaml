@@ -1,6 +1,6 @@
 $schema: https://azuremlschemas.azureedge.net/latest/commandJob.schema.json
 code: .
-command: python human_activity_prediction.py  --trainingdata ${{ inputs.training_data }}
+command: python human_activity_recognition.ipynb  --trainingdata ${{ inputs.training_data }}
 inputs:
   training_data:
     type: uri_file 
