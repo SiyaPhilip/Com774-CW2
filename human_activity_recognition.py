@@ -7,11 +7,11 @@ Original file is located at
     https://colab.research.google.com/drive/1uP2qDm2i5dMmsFzXGDaQSKwH0IX3cSca
 """
 
-#pip install pandas
+pip install pandas
 
-#pip install seaborn
+pip install seaborn
 
-#pip install matplotlib
+pip install matplotlib
 
 from pathlib import Path
 import numpy as np # linear algebra
