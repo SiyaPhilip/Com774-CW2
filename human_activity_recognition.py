@@ -14,15 +14,17 @@ Original file is located at
 #pip install matplotlib
 
 import argparse
+import cmath
+from typing import Annotated
+from matplotlib.colors import Normalize
 import numpy as np # linear algebra
 import pandas as pd # data processing, CSV file I/O (e.g. pd.read_csv)
-import seaborn as sns
+#import seaborn as sns
 import matplotlib.pyplot as plt
 import os
 import mlflow
 from pathlib import Path
 from sklearn.manifold import TSNE
-
 
 
 # Get the arugments we need to avoid fixing the dataset path in code
@@ -59,11 +61,16 @@ X_tsne_standing = tsne.fit_transform(X_standing)
 tsne_standing_df = pd.DataFrame({'X': X_tsne_standing[:, 0], 'Y': X_tsne_standing[:, 1], 'Subject': y_subject_standing})
 # Generate a unique color for each subject
 num_subjects = y_subject_standing.nunique()
-palette = sns.color_palette("hsv", num_subjects)
+
+cmap = cmath.get_cmap("hsv", num_subjects)
+norm = Normalize(vmin=0, vmax=num_subjects-1)
+palette = [cmap(norm(i)) for i in range(num_subjects)]
+#palette = sns.color_palette("hsv", num_subjects)
 
 # Plotting
 plt.figure(figsize=(12, 8))
-sns.scatterplot(x='X', y='Y', hue='Subject', data=tsne_standing_df, palette=palette)
+plt.scatter(x='X', y='Y', hue='Subject', data=tsne_standing_df, palette=palette)
+#sns.scatterplot(x='X', y='Y', hue='Subject', data=tsne_standing_df, palette=palette)
 plt.title('t-SNE visualization of Subjects during WALKING Activity')
 plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
 plt.show()
@@ -81,7 +88,8 @@ tsne_df = pd.DataFrame({'X': X_tsne[:, 0], 'Y': X_tsne[:, 1], 'Activity': y})
 
 # Plotting
 plt.figure(figsize=(12, 8))
-sns.scatterplot(x='X', y='Y', hue='Activity', data=tsne_df, palette='bright')
+plt.scatter(x='X', y='Y', hue='Activity', data=tsne_df, palette='bright')
+#sns.scatterplot(x='X', y='Y', hue='Activity', data=tsne_df, palette='bright')
 plt.title('t-SNE visualization of Human Activity Recognition Data')
 plt.show()
 
@@ -116,13 +124,26 @@ print("Classification Report:")
 print(classification_report(y_test, y_pred))
 
 # Confusion Matrix for Classification Model
-import seaborn as sns
+#import seaborn as sns
 import matplotlib.pyplot as plt
 from sklearn.metrics import confusion_matrix
 
 cm = confusion_matrix(y_test, y_pred)
 plt.figure(figsize=(8, 6))
-sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', xticklabels=rf_classifier.classes_, yticklabels=rf_classifier.classes_)
+# Matplotlib heatmap
+plt.matshow(cm, cmap='Blues')
+
+# Show ticks
+plt.xticks(ticks=range(len(rf_classifier.classes_)), labels=rf_classifier.classes_)
+plt.yticks(ticks=range(len(rf_classifier.classes_)), labels=rf_classifier.classes_)
+
+# Display annotations
+if Annotated:
+    for i in range(len(rf_classifier.classes_)):
+        for j in range(len(rf_classifier.classes_)):
+            plt.text(j, i, str(cm[i, j]), ha='center', va='center', color='black', fontsize=8)
+
+#sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', xticklabels=rf_classifier.classes_, yticklabels=rf_classifier.classes_)
 plt.xlabel('Predicted')
 plt.ylabel('True')
 plt.title('Confusion Matrix')
@@ -219,7 +240,20 @@ print(classification_report(y_test, y_pred))
 from sklearn.metrics import confusion_matrix
 cm = confusion_matrix(y_test, y_pred)
 plt.figure(figsize=(8, 6))
-sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', xticklabels=gb_classifier.classes_, yticklabels=gb_classifier.classes_)
+# Matplotlib heatmap
+plt.matshow(cm, cmap='Blues')
+
+# Show ticks
+plt.xticks(ticks=range(len(gb_classifier.classes_)), labels=gb_classifier.classes_)
+plt.yticks(ticks=range(len(gb_classifier.classes_)), labels=gb_classifier.classes_)
+
+# Display annotations
+if plt.annotate:
+    for i in range(len(gb_classifier.classes_)):
+        for j in range(len(gb_classifier.classes_)):
+            plt.text(j, i, str(cm[i, j]), ha='center', va='center', color='black', fontsize=8)
+
+#sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', xticklabels=gb_classifier.classes_, yticklabels=gb_classifier.classes_)
 plt.xlabel('Predicted')
 plt.ylabel('True')
 plt.title('Confusion Matrix')
