@@ -66,7 +66,7 @@ num_subjects = y_subject_standing.nunique()
 plt.figure(figsize=(12, 8))
 
 # Assuming you have columns named 'x' and 'y' for the x and y-axis values
-plt.scatter(tsne_standing_df['x'], tsne_standing_df['y'], label='Data Points')
+plt.scatter(tsne_standing_df['X'], tsne_standing_df['Y'], label='Data Points')
 
 # Add labels and title
 plt.xlabel('X-axis Label')
