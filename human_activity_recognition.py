@@ -7,19 +7,31 @@ Original file is located at
     https://colab.research.google.com/drive/1uP2qDm2i5dMmsFzXGDaQSKwH0IX3cSca
 """
 
-pip install pandas
+#pip install pandas
 
-pip install seaborn
+#pip install seaborn
 
-pip install matplotlib
+#pip install matplotlib
 
-from pathlib import Path
+import argparse
 import numpy as np # linear algebra
 import pandas as pd # data processing, CSV file I/O (e.g. pd.read_csv)
 import seaborn as sns
 import matplotlib.pyplot as plt
-
 import os
+import mlflow
+from pathlib import Path
+from sklearn.manifold import TSNE
+
+
+
+# Get the arugments we need to avoid fixing the dataset path in code
+parser = argparse.ArgumentParser()
+parser.add_argument("--trainingdata", type=str, required=True, help='Dataset for training')
+args = parser.parse_args()
+mlflow.autolog()
+
+
 #file = Path(__file__).with_name('..\train.csv')
 #data = pd.read_csv(file, engine='python')
 data = pd.read_csv(args.trainingdata)
@@ -30,7 +42,7 @@ data.Activity.unique()
 
 #pip install -U scikit-learn scipy matplotlib
 
-from sklearn.manifold import TSNE
+#from sklearn.manifold import TSNE
 
 # Filter for only "WALKING" activity
 standing_data = data[data['Activity'] == 'WALKING']
