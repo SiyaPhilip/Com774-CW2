@@ -25,6 +25,7 @@ import os
 import mlflow
 from pathlib import Path
 from sklearn.manifold import TSNE
+from matplotlib import cm
 
 
 # Get the arugments we need to avoid fixing the dataset path in code
@@ -62,9 +63,13 @@ tsne_standing_df = pd.DataFrame({'X': X_tsne_standing[:, 0], 'Y': X_tsne_standin
 # Generate a unique color for each subject
 num_subjects = y_subject_standing.nunique()
 
-cmap = cmath.get_cmap("hsv", num_subjects)
-norm = Normalize(vmin=0, vmax=num_subjects-1)
+cmap = plt.cm.get_cmap("hsv", num_subjects)
+norm = plt.Normalize(vmin=0, vmax=num_subjects-1)
 palette = [cmap(norm(i)) for i in range(num_subjects)]
+
+#cmap = cmath.get_cmap("hsv", num_subjects)
+#norm = Normalize(vmin=0, vmax=num_subjects-1)
+#palette = [cmap(norm(i)) for i in range(num_subjects)]
 #palette = sns.color_palette("hsv", num_subjects)
 
 # Plotting
