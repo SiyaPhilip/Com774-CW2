@@ -63,12 +63,28 @@ tsne_standing_df = pd.DataFrame({'X': X_tsne_standing[:, 0], 'Y': X_tsne_standin
 # Generate a unique color for each subject
 num_subjects = y_subject_standing.nunique()
 
-cmap = plt.cm.get_cmap("hsv", num_subjects)
+plt.figure(figsize=(12, 8))
+
+# Assuming you have columns named 'x' and 'y' for the x and y-axis values
+plt.scatter(tsne_standing_df['x'], tsne_standing_df['y'], label='Data Points')
+
+# Add labels and title
+plt.xlabel('X-axis Label')
+plt.ylabel('Y-axis Label')
+plt.title('t-SNE visualization of Subjects during WALKING Activity')
+
+# Add legend if needed
+plt.legend()
+
+# Show the plot
+plt.show()
+
+"""cmap = plt.cm.get_cmap("hsv", num_subjects)
 norm = plt.Normalize(vmin=0, vmax=num_subjects-1)
 palette = [cmap(norm(i)) for i in range(num_subjects)]
 
 #cmap = cmath.get_cmap("hsv", num_subjects)
-#norm = Normalize(vmin=0, vmax=num_subjects-1)
+#norm = Normalize(vmin=0, vmax=num_subjects-1)s
 #palette = [cmap(norm(i)) for i in range(num_subjects)]
 #palette = sns.color_palette("hsv", num_subjects)
 
@@ -78,7 +94,7 @@ plt.scatter(x='X', y='Y', hue='Subject', data=tsne_standing_df, palette=palette)
 #sns.scatterplot(x='X', y='Y', hue='Subject', data=tsne_standing_df, palette=palette)
 plt.title('t-SNE visualization of Subjects during WALKING Activity')
 plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
-plt.show()
+plt.show()"""
 
 # Separate features and labels
 X = data.drop('Activity', axis=1)
@@ -91,12 +107,30 @@ X_tsne = tsne.fit_transform(X)
 # Create a DataFrame for the t-SNE results
 tsne_df = pd.DataFrame({'X': X_tsne[:, 0], 'Y': X_tsne[:, 1], 'Activity': y})
 
-# Plotting
+# Create a scatter plot with a specific figure size
+plt.figure(figsize=(12, 8))
+
+# Assuming you have columns named 'X' and 'Y' for the x and y-axis values
+# Assuming you have a column named 'Activity' for the hue
+scatter = plt.scatter(x=tsne_df['X'], y=tsne_df['Y'], c=tsne_df['Activity'], cmap='bright')
+
+# Add labels and title
+plt.xlabel('X-axis Label')
+plt.ylabel('Y-axis Label')
+plt.title('t-SNE Visualization of Human Activity Recognition Data')
+
+# Add colorbar for the 'Activity' variable
+plt.colorbar(scatter, label='Activity')
+
+# Show the plot
+plt.show()
+
+"""# Plotting
 plt.figure(figsize=(12, 8))
 plt.scatter(x='X', y='Y', hue='Activity', data=tsne_df, palette='bright')
 #sns.scatterplot(x='X', y='Y', hue='Activity', data=tsne_df, palette='bright')
 plt.title('t-SNE visualization of Human Activity Recognition Data')
-plt.show()
+plt.show()"""
 
 #Classification Model
 
