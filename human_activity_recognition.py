@@ -34,18 +34,11 @@ parser.add_argument("--trainingdata", type=str, required=True, help='Dataset for
 args = parser.parse_args()
 mlflow.autolog()
 
-
-#file = Path(__file__).with_name('..\train.csv')
-#data = pd.read_csv(file, engine='python')
+#read data
 data = pd.read_csv(args.trainingdata)
-#data = pd.read_csv('../../../Documents/Com774_CW2_B00910932/Com774-CW2/train.csv', engine='python')
 print(data.head())
 
 data.Activity.unique()
-
-#pip install -U scikit-learn scipy matplotlib
-
-#from sklearn.manifold import TSNE
 
 # Filter for only "WALKING" activity
 standing_data = data[data['Activity'] == 'WALKING']
@@ -79,6 +72,8 @@ plt.legend()
 # Show the plot
 plt.show()
 
+#---------------------------------------------------------------------------------------------------------------
+'''
 """cmap = plt.cm.get_cmap("hsv", num_subjects)
 norm = plt.Normalize(vmin=0, vmax=num_subjects-1)
 palette = [cmap(norm(i)) for i in range(num_subjects)]
@@ -316,3 +311,4 @@ plt.ylabel('Feature')
 plt.title('Gradient Boosting Feature Importances')
 plt.gca().invert_yaxis()  # To display the highest importance at the top
 plt.show()
+'''
