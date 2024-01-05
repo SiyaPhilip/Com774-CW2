@@ -1,3 +1,73 @@
+
+import numpy as np # linear algebra
+import pandas as pd # data processing, CSV file I/O (e.g. pd.read_csv)
+import argparse
+import mlflow
+
+import warnings
+warnings.filterwarnings('ignore')
+
+# Data visualiztion Libraries
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+from collections import Counter
+
+from sklearn.decomposition import PCA #for dimension reductionality 
+
+from sklearn.model_selection import RandomizedSearchCV #hyperparameter and cross-validation
+
+# machine learning model Libraries
+from sklearn.linear_model import LogisticRegression
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.svm import SVC
+
+# for error and accurary score
+from sklearn.metrics import accuracy_score
+from sklearn.metrics import mean_squared_error
+from sklearn.metrics import confusion_matrix , ConfusionMatrixDisplay
+
+
+# Get the arugments we need to avoid fixing the dataset path in code
+parser = argparse.ArgumentParser()
+parser.add_argument("--trainingdata", type=str, required=True, help='Dataset for training')
+args = parser.parse_args()
+mlflow.autolog()
+
+#read data
+data = pd.read_csv(args.trainingdata)
+print(data.head())
+
+#Number of counts per activity performs by particpants
+data.Activity.value_counts()
+
+
+#Model Prepration
+x_train = data.drop(['subject','Activity'] , axis =1)
+y_train = data.Activity
+
+print(x_train.shape , y_train.shape)
+
+#Preparing model with Logistic Regression
+parameters = {'max_iter' : [100,200,500]}
+
+lr_classifier = LogisticRegression()
+lr_classifier_rs = RandomizedSearchCV(lr_classifier , param_distributions = parameters, 
+                                      cv = 5 , random_state = 42)
+lr_classifier_rs.fit(x_train , y_train)
+y_pred = lr_classifier_rs.predict(x_train)
+
+lr_model_accuracy =  accuracy_score(y_true = y_train , y_pred = y_pred)
+print("Accurarcy of the ML model :",round((lr_model_accuracy)*100 , 3))
+
+cm = confusion_matrix(y_true = y_train , y_pred = y_pred)
+disp = ConfusionMatrixDisplay(confusion_matrix=cm , display_labels= data.Activity.unique())
+disp.plot(cmap ='Blues')
+plt.xticks(rotation = 30)
+plt.show()
+
+
+'''
 # -*- coding: utf-8 -*-
 """human_activity_recognition.ipynb
 
@@ -181,7 +251,7 @@ plt.xlabel('Predicted')
 plt.ylabel('True')
 plt.title('Confusion Matrix')
 plt.show()
-'''
+
 # Plot feature importance
 feature_importances = rf_classifier.feature_importances_
 
