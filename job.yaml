@@ -10,6 +10,6 @@ inputs:
     path: azureml:Human_Activity_Recognition_Testing:1
     #path: azureml://subscriptions/6b8b82bb-4699-4b81-bfba-d228a0103fe8/resourcegroups/Com774-CW-B00910932/workspaces/Com774MLWorkspace/datastores/workspaceblobstore/paths/UI/2023-12-19_112051_UTC/train.csv
 environment: azureml://registries/azureml/environments/sklearn-1.1/versions/14
-compute: Com774-CW-ML-Compute
+compute: Com774-CW2
 experiment_name: Human-Activity-Recognition
 description: This experiment contains model and dataset for the human activity recognition using smartphones
