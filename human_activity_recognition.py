@@ -91,6 +91,7 @@ disp.plot(cmap ='Blues')
 plt.xticks(rotation = 30)
 plt.show()
 
+
 #Preparing model with SVC
 parameters = {'max_iter' : [100,200,500]}
 
