@@ -66,6 +66,23 @@ disp.plot(cmap ='Blues')
 plt.xticks(rotation = 30)
 plt.show()
 
+#Preparing model with Decesion Tree
+parameters = {'max_depth' : [100,200,500]}
+
+dt_classifier = DecisionTreeClassifier()
+dt_classifier_rs = RandomizedSearchCV(dt_classifier , param_distributions = parameters, 
+                                      cv = 5 , random_state = 42)
+dt_classifier_rs.fit(x_train , y_train)
+y_pred_dt = dt_classifier_rs.predict(x_train)
+
+dt_model_accuracy =  accuracy_score(y_true = y_train , y_pred = y_pred_dt)
+print("Accurarcy of the ML model :",round((dt_model_accuracy)*100 , 3))
+
+cm = confusion_matrix(y_true = y_train , y_pred = y_pred_dt)
+disp = ConfusionMatrixDisplay(confusion_matrix=cm , display_labels= data.Activity.unique())
+disp.plot(cmap ='Blues')
+plt.xticks(rotation = 30)
+plt.show()
 
 '''
 # -*- coding: utf-8 -*-
