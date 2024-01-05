@@ -44,6 +44,10 @@ test = pd.read_csv(args.testingdata)
 #Number of counts per activity performs by particpants
 train.Activity.value_counts()
 
+# making dataframe after splitting the columns for counting common parameter
+parameter = pd.DataFrame.from_dict(Counter([col.split('-')[0].split('(')[0] for col in train.columns]),orient='index').rename(columns = {0 : 'Count'})
+
+parameter.sort_values('Count',ascending=False)
 
 #Model Prepration
 x_train = train.drop(['subject','Activity'] , axis =1)
