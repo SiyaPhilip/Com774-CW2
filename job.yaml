@@ -1,10 +1,13 @@
 $schema: https://azuremlschemas.azureedge.net/latest/commandJob.schema.json
 code: .
-command: python human_activity_recognition.py  --trainingdata ${{ inputs.training_data }}
+command: python human_activity_recognition.py  --trainingdata ${{ inputs.training_data }} --testingdata ${{ inputs.testing_data}}
 inputs:
   training_data:
     type: uri_file 
     path: azureml:Human_Activity_Recognition_Training:1
+  testing_data:
+    type: uri_file
+    path: azureml:Human_Activity_Recognition_Testing:1
     #path: azureml://subscriptions/6b8b82bb-4699-4b81-bfba-d228a0103fe8/resourcegroups/Com774-CW-B00910932/workspaces/Com774MLWorkspace/datastores/workspaceblobstore/paths/UI/2023-12-19_112051_UTC/train.csv
 environment: azureml://registries/azureml/environments/sklearn-1.1/versions/14
 compute: Com774-CW-ML-Compute

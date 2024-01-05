@@ -31,21 +31,28 @@ from sklearn.metrics import confusion_matrix , ConfusionMatrixDisplay
 # Get the arugments we need to avoid fixing the dataset path in code
 parser = argparse.ArgumentParser()
 parser.add_argument("--trainingdata", type=str, required=True, help='Dataset for training')
+parser.add_argument("--testingdata", type=str, required=True, help='Dataset for testing')
 args = parser.parse_args()
 mlflow.autolog()
 
 #read data
-data = pd.read_csv(args.trainingdata)
-print(data.head())
+train = pd.read_csv(args.trainingdata)
+test = pd.read_csv(args.testingdata)
+#data = pd.read_csv(args.trainingdata)
+#print(data.head())
 
 #Number of counts per activity performs by particpants
-data.Activity.value_counts()
+train.Activity.value_counts()
 
 
 #Model Prepration
-x_train = data.drop(['subject','Activity'] , axis =1)
-y_train = data.Activity
+x_train = train.drop(['subject','Activity'] , axis =1)
+y_train = train.Activity
 
+x_test = test.drop(['subject','Activity'] , axis =1)
+y_test = test.Activity
+
+print(x_test.shape , y_test.shape)
 print(x_train.shape , y_train.shape)
 
 #Preparing model with Logistic Regression
@@ -55,16 +62,17 @@ lr_classifier = LogisticRegression()
 lr_classifier_rs = RandomizedSearchCV(lr_classifier , param_distributions = parameters, 
                                       cv = 5 , random_state = 42)
 lr_classifier_rs.fit(x_train , y_train)
-y_pred = lr_classifier_rs.predict(x_train)
+y_pred = lr_classifier_rs.predict(x_test)
 
-lr_model_accuracy =  accuracy_score(y_true = y_train , y_pred = y_pred)
+lr_model_accuracy =  accuracy_score(y_true = y_test , y_pred = y_pred)
 print("Accurarcy of the ML model :",round((lr_model_accuracy)*100 , 3))
 
-cm = confusion_matrix(y_true = y_train , y_pred = y_pred)
-disp = ConfusionMatrixDisplay(confusion_matrix=cm , display_labels= data.Activity.unique())
+cm = confusion_matrix(y_true = y_test , y_pred = y_pred)
+disp = ConfusionMatrixDisplay(confusion_matrix=cm , display_labels= train.Activity.unique())
 disp.plot(cmap ='Blues')
 plt.xticks(rotation = 30)
 plt.show()
+
 
 #Preparing model with Decesion Tree
 parameters = {'max_depth' : [100,200,500]}
@@ -73,13 +81,12 @@ dt_classifier = DecisionTreeClassifier()
 dt_classifier_rs = RandomizedSearchCV(dt_classifier , param_distributions = parameters, 
                                       cv = 5 , random_state = 42)
 dt_classifier_rs.fit(x_train , y_train)
-y_pred_dt = dt_classifier_rs.predict(x_train)
-
-dt_model_accuracy =  accuracy_score(y_true = y_train , y_pred = y_pred_dt)
+y_pred_dt = dt_classifier_rs.predict(x_test)
+dt_model_accuracy =  accuracy_score(y_true = y_test , y_pred = y_pred_dt)
 print("Accurarcy of the ML model :",round((dt_model_accuracy)*100 , 3))
 
-cm = confusion_matrix(y_true = y_train , y_pred = y_pred_dt)
-disp = ConfusionMatrixDisplay(confusion_matrix=cm , display_labels= data.Activity.unique())
+cm = confusion_matrix(y_true = y_test , y_pred = y_pred_dt)
+disp = ConfusionMatrixDisplay(confusion_matrix=cm , display_labels= train.Activity.unique())
 disp.plot(cmap ='Blues')
 plt.xticks(rotation = 30)
 plt.show()
