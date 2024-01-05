@@ -54,7 +54,7 @@ y_test = test.Activity
 
 print(x_test.shape , y_test.shape)
 print(x_train.shape , y_train.shape)
-'''
+
 #Preparing model with Logistic Regression
 parameters = {'max_iter' : [100,200,500]}
 
@@ -72,7 +72,7 @@ disp = ConfusionMatrixDisplay(confusion_matrix=cm , display_labels= train.Activi
 disp.plot(cmap ='Blues')
 plt.xticks(rotation = 30)
 plt.show()
-'''
+
 
 #Preparing model with Decesion Tree
 parameters = {'max_depth' : [100,200,500]}
@@ -90,6 +90,24 @@ disp = ConfusionMatrixDisplay(confusion_matrix=cm , display_labels= train.Activi
 disp.plot(cmap ='Blues')
 plt.xticks(rotation = 30)
 plt.show()
+
+#Preparing model with SVC
+parameters = {'max_iter' : [100,200,500]}
+
+svc_classifier = SVC(kernel = 'sigmoid')
+svc_classifier_rs = RandomizedSearchCV(svc_classifier , param_distributions = parameters, 
+                                      cv = 5 , random_state = 42)
+svc_classifier_rs.fit(x_train , y_train)
+y_pred_svc = svc_classifier_rs.predict(x_test)
+svc_model_accuracy =  accuracy_score(y_true = y_test , y_pred = y_pred_svc)
+print("Accurarcy of SVC ML model :",round((svc_model_accuracy)*100 , 3))
+
+cm = confusion_matrix(y_true = y_test , y_pred = y_pred_svc)
+disp = ConfusionMatrixDisplay(confusion_matrix=cm , display_labels= train.Activity.unique())
+disp.plot(cmap ='Blues')
+plt.xticks(rotation = 30)
+plt.show()
+
 
 '''
 # -*- coding: utf-8 -*-
