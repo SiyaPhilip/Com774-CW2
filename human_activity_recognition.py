@@ -72,8 +72,7 @@ plt.legend()
 # Show the plot
 plt.show()
 
-#---------------------------------------------------------------------------------------------------------------
-'''
+
 """cmap = plt.cm.get_cmap("hsv", num_subjects)
 norm = plt.Normalize(vmin=0, vmax=num_subjects-1)
 palette = [cmap(norm(i)) for i in range(num_subjects)]
@@ -182,7 +181,7 @@ plt.xlabel('Predicted')
 plt.ylabel('True')
 plt.title('Confusion Matrix')
 plt.show()
-
+'''
 # Plot feature importance
 feature_importances = rf_classifier.feature_importances_
 
