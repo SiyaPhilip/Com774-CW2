@@ -95,7 +95,7 @@ disp.plot(cmap ='Blues')
 plt.xticks(rotation = 30)
 plt.show()
 
-'''#Preparing model with Decesion Tree
+#Preparing model with Decesion Tree
 parameters = {'max_depth' : [100,200,500]}
 
 dt_classifier = DecisionTreeClassifier()
@@ -110,4 +110,4 @@ cm = confusion_matrix(y_true = y_test , y_pred = y_pred_dt)
 disp = ConfusionMatrixDisplay(confusion_matrix=cm , display_labels= train.Activity.unique())
 disp.plot(cmap ='Blues')
 plt.xticks(rotation = 30)
-plt.show()'''
+plt.show()
