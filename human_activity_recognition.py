@@ -86,6 +86,13 @@ def perform_model(model, x_train, y_train, x_test, y_test, cmap= plt.cm.Greens, 
     model_results[modelname+ '_best_param']= model.best_params_
     model_results[modelname+ '_cv_score']= model.best_score_ * 100
     model_results[modelname+ '_prediction_time']= predtime
+
+    cm = confusion_matrix(y_true = y_test , y_pred = y_pred)
+    disp = ConfusionMatrixDisplay(confusion_matrix=cm , display_labels= train_df.Activity.unique())
+    disp.plot(cmap ='Blues')
+    plt.xticks(rotation = 30)
+    plt.show()
+    '''
 # draw confusion matrix
     # Assuming you have already defined y_test and y_pred
     cm = metrics.confusion_matrix(y_test,y_pred)
@@ -108,7 +115,10 @@ def perform_model(model, x_train, y_train, x_test, y_test, cmap= plt.cm.Greens, 
         for j in range(len(classes)):
             plt.text(j, i, str(cm[i, j]), ha='center', va='center', color='white' if cm[i, j] > cm.max() / 2 else 'black')
 
-    plt.show()
+    plt.show()'''
+
+    
+
     #cm = metrics.confusion_matrix(y_test, y_pred)
     #plt.figure(figsize= (7,7))
     #sns.heatmap(cm, annot= True, fmt= 'd', cmap= cmap, xticklabels= list(activities.values()), yticklabels= list(activities.values()), )
