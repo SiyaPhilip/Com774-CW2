@@ -17,3 +17,5 @@ jobs:
         uses: azure/login@v1
         with:
           creds: '${{ secrets.HUMANACTIVITYRECOGNITION_CREDENTIALS }}'
+      - name: Test azure login by getting details
+        run: az account show
