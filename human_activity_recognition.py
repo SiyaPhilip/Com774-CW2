@@ -58,7 +58,7 @@ y_test = test.Activity
 print(x_test.shape , y_test.shape)
 print(x_train.shape , y_train.shape)
 
-'''
+
 #Preparing model with Logistic Regression
 parameters = {'max_iter' : [100,200,500]}
 
@@ -76,7 +76,7 @@ disp = ConfusionMatrixDisplay(confusion_matrix=cm , display_labels= train.Activi
 disp.plot(cmap ='Blues')
 plt.xticks(rotation = 30)
 plt.show()
-'''
+
 
 #Preparing model with SVC
 parameters = {'max_iter' : [100,200,500]}
@@ -95,7 +95,7 @@ disp.plot(cmap ='Blues')
 plt.xticks(rotation = 30)
 plt.show()
 
-#Preparing model with Decesion Tree
+'''#Preparing model with Decesion Tree
 parameters = {'max_depth' : [100,200,500]}
 
 dt_classifier = DecisionTreeClassifier()
@@ -110,4 +110,4 @@ cm = confusion_matrix(y_true = y_test , y_pred = y_pred_dt)
 disp = ConfusionMatrixDisplay(confusion_matrix=cm , display_labels= train.Activity.unique())
 disp.plot(cmap ='Blues')
 plt.xticks(rotation = 30)
-plt.show()
+plt.show()'''
