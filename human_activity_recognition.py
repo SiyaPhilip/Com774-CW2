@@ -57,7 +57,7 @@ y_test = test.Activity
 
 print(x_test.shape , y_test.shape)
 print(x_train.shape , y_train.shape)
-
+'''
 #Preparing model with Logistic Regression
 parameters = {'max_iter' : [100,200,500]}
 
@@ -75,7 +75,7 @@ disp = ConfusionMatrixDisplay(confusion_matrix=cm , display_labels= train.Activi
 disp.plot(cmap ='Blues')
 plt.xticks(rotation = 30)
 plt.show()
-
+'''
 
 '''#Preparing model with Decesion Tree
 parameters = {'max_depth' : [100,200,500]}
