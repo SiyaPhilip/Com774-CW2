@@ -16,11 +16,13 @@ jobs:
       - name: Install Azure CLI
         run: |
           curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+          az --version
 
       - name: Install Azure ML CLI Extension
         run: |
           az extension add -n ml -y
           az extension update -n ml
+          az ml --version
       - name: Log in to Azure
         uses: azure/login@v1
         with:
@@ -29,3 +31,4 @@ jobs:
         run: az account show
       - name: Submit Azure ML Job
         run: az ml job create --file job.yaml --resource-group CW2-Com774-B00910932 --workspace-name CW2-ML-Workspace
+        if: success()
