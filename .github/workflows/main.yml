@@ -27,4 +27,4 @@ jobs:
       - name: Test azure login by getting details
         run: az account show
       - name: Submit Azure ML Job
-        run: az ml job create -f production/job.yaml --resource-group CW2-Com774-B00910932 --workspace-name CW2-ML-Workspace
+        run: az ml job create --file job.yaml --resource-group CW2-Com774-B00910932 --workspace-name CW2-ML-Workspace
