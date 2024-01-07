@@ -10,18 +10,18 @@ import numpy as np
 import pandas as pd
 
 #import os
-#train = pd.read_csv("C:\\Users\\HP\\Documents\\Com774_CW2_B00910932\\Com774-CW2\\train.csv")
-#test = pd.read_csv("C:\\Users\\HP\\Documents\\Com774_CW2_B00910932\\Com774-CW2\\test.csv")
+train = pd.read_csv("train.csv")
+test = pd.read_csv("test.csv")
 # Get the arugments we need to avoid fixing the dataset path in code
-parser = argparse.ArgumentParser()
-parser.add_argument("--trainingdata", type=str, required=True, help='Dataset for training')
-parser.add_argument("--testingdata", type=str, required=True, help='Dataset for testing')
-args = parser.parse_args()
-mlflow.autolog()
+#parser = argparse.ArgumentParser()
+#parser.add_argument("--trainingdata", type=str, required=True, help='Dataset for training')
+#parser.add_argument("--testingdata", type=str, required=True, help='Dataset for testing')
+#args = parser.parse_args()
+#mlflow.autolog()
 
 #read data
-train = pd.read_csv(args.trainingdata)
-test = pd.read_csv(args.testingdata)
+#train = pd.read_csv(args.trainingdata)
+#test = pd.read_csv(args.testingdata)
 
 class TestLogisticRegression(unittest.TestCase):
     def setUp(self):
