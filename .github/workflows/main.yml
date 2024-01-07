@@ -27,6 +27,12 @@ jobs:
       - name: Test azure login by getting details
         run: az account show
 
+      # Add a new step to install dependencies
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install mlflow
+
       # Add a new step for running unit tests
       - name: Run unit tests
         run: python Testing/UnitTesting.py
